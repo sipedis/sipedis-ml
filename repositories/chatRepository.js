@@ -4,7 +4,7 @@ const { Pinecone } = require("@pinecone-database/pinecone");
 
 // Konfigurasi Pinecone
 const pinecone = new Pinecone({
-  apiKey: process.env.PINECONE_API,
+  apiKey: process.env.PINECONE_APIKEY,
 });
 const index = pinecone.Index("skin-cancer-qa");
 
@@ -162,92 +162,6 @@ async function chat(image, query) {
 
   if (data) return data;
 }
-
-// async function chatWithImage(model, imageBuffer, res) {
-//   let result = null;
-//   let className = null;
-//   let query = null;
-
-//   try {
-//     // Use sharp to resize the image and convert it to raw pixel data (RGB)
-//     const image = await sharp(imageBuffer).resize(224, 224).raw().toBuffer();
-
-//     // Convert raw image data into a Tensor
-//     const imgArray = new Uint8Array(image);
-
-//     // Check if the image has the correct number of values (224 * 224 * 3)
-//     if (imgArray.length !== 224 * 224 * 3) {
-//       return res.status(400).send("Image size is not correct.");
-//     }
-
-//     // Convert to tensor, shape [1, 224, 224, 3]
-//     let imgTensor = tf.tensor4d(Array.from(imgArray), [1, 224, 224, 3]);
-//     imgTensor = imgTensor.div(tf.scalar(255));
-
-//     const prediction = model.predict(imgTensor);
-//     const result = await prediction.data();
-
-//     className = classNames[result.indexOf(Math.max(...result))];
-//     query = `apa itu ${className}`;
-//   } catch (err) {
-//     console.error({ error: err });
-//     throw new Error("Cannot processed image");
-//   }
-
-//   let confidence = null;
-//   let randomContext = null;
-
-//   try {
-//     const docs = await retrieveRelevantDocsFromPinecone(query);
-//     confidence = (result[result.indexOf(Math.max(...result))] * 100).toFixed(2);
-
-//     if (confidence < 0.5) res.send("Tidak dapat memprediksi gambar");
-
-//     randomContext = docs[Math.floor(Math.random() * docs.length)];
-//     randomContext =
-//       randomContext.score > 0.5
-//         ? randomContext?.content
-//         : "Tidak ada hasil relevan";
-//   } catch (err) {
-//     console.error({ error: err });
-//     throw new Error("RAG error");
-//   }
-
-//   if (className && confidence && randomContext) {
-//     return {
-//       className: className,
-//       confidence: confidence,
-//       assistant: randomContext,
-//     };
-//   }
-// }
-
-// async function chatWithQuery(query, res) {
-//   if (!query) throw new Error("Query diperlukan");
-
-//   if (query.length <= 7)
-//     return {
-//       assistant:
-//         "Konteks terlalu kecil, tidak menemukan informasi yang relevan",
-//     };
-
-//   try {
-//     const docs = await retrieveRelevantDocsFromPinecone(
-//       query.replace(/[^\w\s]/g, "").toLowerCase()
-//     );
-
-//     let randomContext = docs[Math.floor(Math.random() * docs.length)];
-//     randomContext =
-//       randomContext.score > 0.5
-//         ? randomContext?.content
-//         : "Tidak ada hasil relevan";
-
-//     return { assistant: randomContext };
-//   } catch (err) {
-//     console.error({ error: err });
-//     throw new Error("RAG error");
-//   }
-// }
 
 module.exports = {
   chat,

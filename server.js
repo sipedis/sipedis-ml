@@ -32,6 +32,7 @@ app.post("/chat", async (req, res) => {
     if (ERROR_MESSAGE.includes(err.message)) {
       res.status(500).json({ error: err.message });
     } else {
+      console.log({error: err})
       res.status(500).json({error: "Internal server error"})
     }
   }

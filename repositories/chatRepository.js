@@ -91,18 +91,21 @@ async function chat(image, query) {
   let confidence = null;
   let randomContext = null;
   
-  const imageBase64 = image.replace(/^data:image\/\w+;base64,/, ""); // Hapus prefix base64
-  const imageBuffer = Buffer.from(imageBase64, "base64");
-
+  
   let data = {};
+  
+  if (image) {
 
-  if (imageBuffer) {
     try {
+
+      const imageBase64 = image.replace(/^data:image\/\w+;base64,/, ""); // Hapus prefix base64
+      const imageBuffer = Buffer.from(imageBase64, "base64");
+
       // Use sharp to resize the image and convert it to raw pixel data (RGB)
-      const image = await sharp(imageBuffer).resize(224, 224).raw().toBuffer();
+      const resizedImage = await sharp(imageBuffer).resize(224, 224).raw().toBuffer();
 
       // Convert raw image data into a Tensor
-      const imgArray = new Uint8Array(image);
+      const imgArray = new Uint8Array(resizedImage);
 
       // Check if the image has the correct number of values (224 * 224 * 3)
       if (imgArray.length !== 224 * 224 * 3) {

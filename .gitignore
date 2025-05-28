@@ -1,2 +1,8 @@
 node_modules/
 model-1/
+
+
+.env
+.env.local
+.env.*.local
+!.env.example

@@ -1,6 +1,5 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const tf = require("@tensorflow/tfjs"); // Better use @tensorflow/tfjs-node or @tensorflow/tfjs-node-gpu but it has building isues
 require("dotenv").config();
 
 const { chat } = require("./repositories/chatRepository");

@@ -2,7 +2,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 
-const { chat } = require("./repositories/chatRepository");
 
 // Inisialisasi Express
 const app = express();
@@ -11,6 +10,7 @@ const port = process.env.POST || 3000;
 // Middleware
 app.use(bodyParser.json());
 app.use("/model", express.static("model"));
+const { chat } = require("./repositories/chatRepository");
 
 // Endpoint Retriever dengan gambar dalam format JSON (base64)
 app.post("/chat", async (req, res) => {

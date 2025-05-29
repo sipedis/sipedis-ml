@@ -1,14 +1,17 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 require("dotenv").config();
+const cors = require("cors);
 
 
 // Inisialisasi Express
 const app = express();
 const port = process.env.PORT || 3000;
+app.use(cors());
 
 // Middleware
 app.use(bodyParser.json());
+
 app.use("/model", express.static("model"));
 const { chat } = require("./repositories/chatRepository");
 
